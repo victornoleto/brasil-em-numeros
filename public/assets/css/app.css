@@ -32,6 +32,9 @@
 #dash-root .bx .chips{display:flex;flex-wrap:wrap;gap:var(--ui-gap-xs);margin-bottom:var(--ui-gap-md)}
 #dash-root .bx .chips button{font:inherit;font-size:var(--ui-font-size-caption);padding:4px 10px;border-radius:999px;border:1px solid var(--color-border-line);background:transparent;color:var(--color-fg-muted);cursor:pointer}
 #dash-root .bx .chips button[aria-pressed=true]{background:var(--color-fg);color:var(--color-bg);border-color:var(--color-fg)}
+/* Análise da IA: o prompt quebra as linhas longas (os links) e rola por dentro. */
+#dash-root .bx .aviso{align-self:center;font-size:var(--ui-font-size-caption);color:var(--color-fg-muted)}
+#dash-root .bx .prompt{margin:0;padding:var(--ui-pad-md);max-height:28rem;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;font-size:var(--ui-font-size-caption);line-height:1.5;background:var(--color-bg);border:1px solid var(--color-border-line);border-radius:var(--ui-radius)}
 #dash-root .bx .ch.gov{min-height:220px}
 #dash-root .bx .tw{overflow-x:auto}
 #dash-root .bx .tw table{min-width:44rem;font-variant-numeric:tabular-nums}

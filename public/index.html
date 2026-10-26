@@ -132,6 +132,69 @@
     <ul class="fontes" id="lista-fontes"></ul>
   </section>
 
+  <section id="analise-ia">
+    <h2>Análise da IA</h2>
+    <div class="card">
+      <p class="note">Copie o prompt e cole num assistente de IA com acesso à internet. Ele pede que a IA abra os dados deste painel, confira alguns números nas fontes oficiais e dê uma nota de 0 a 10 à situação atual do Brasil, comparada ao próprio histórico desde 2000, sem avaliar governos. A resposta é da IA: confira os números que ela citar.</p>
+      <div class="chips"><button type="button" id="copiar-prompt">Copiar prompt</button><span class="aviso" id="prompt-ia-aviso" role="status"></span></div>
+<pre class="prompt" id="prompt-ia">Você é um analista de dados socioeconômicos. Avalie a situação atual do Brasil com base em dados, com rigor e neutralidade política.
+
+## Dados
+O painel "Brasil em números" reúne indicadores oficiais de 2000 a 2025, com 2026 parcial. A página desenha os gráficos com JavaScript; leia os números direto dos arquivos:
+- Página, com as notas de cada gráfico: {SITE}
+- Origem, unidade e ressalvas de cada série, com links para as fontes oficiais: {SITE}data/fontes.json
+- Séries em CSV (ponto como separador decimal):
+{ARQUIVOS}
+Se o site não abrir, os mesmos arquivos estão em https://github.com/victornoleto/brasil-em-numeros/tree/main/public/data
+
+Se não conseguir abrir os arquivos, diga isso e peça que eu cole o conteúdo aqui. Nunca use números de memória no lugar dos arquivos. Todo número da resposta tem de vir dos arquivos ou de uma fonte oficial que você abriu; diga de onde.
+
+## 1. Confira os dados
+- Diga quais arquivos abriu e quais falharam.
+- Confira pelo menos 5 números de séries diferentes, incluindo valores de 2025, nas fontes oficiais citadas em fontes.json. Para cada um: valor no painel, valor na fonte, se batem. Se uma fonte não abrir, diga.
+- Liste as ressalvas que afetam a comparação: quebras de série, séries que começam depois de 2000, estimativas que a fonte revisa e o 2026 parcial (parcial.csv, até o mês da coluna `ate`). As descrições em fontes.json explicam cada caso. No desemprego, não compare a PME (até 2011, 6 regiões metropolitanas) com a PNAD Contínua (desde 2012).
+
+## 2. Compare o agora com o antes
+"Agora" é o último ano fechado de cada série. Use o 2026 parcial só como sinal, sempre marcado como parcial.
+Para cada indicador, mostre: o valor de agora, o do início da série, o melhor e o pior valor (com o ano) e a tendência dos últimos 5 anos (melhora, piora ou estável). Diga em que posição o valor de agora fica entre todos os anos da série (por exemplo, "2º melhor de 26").
+Onde o painel tiver comparação externa (PIB e PIB per capita contra a América Latina e o mundo; o real contra outras moedas), use-a.
+
+## 3. Dê as notas
+Dê uma nota de 0 a 10 para cada dimensão e depois a geral. A régua é o próprio histórico do Brasil desde 2000, não os países ricos:
+- 0 a 2: perto dos piores momentos da série, ou crise aguda;
+- 3 a 4: pior que a média histórica na maior parte dos indicadores;
+- 5: na média histórica, com melhoras e pioras equilibradas;
+- 6 a 7: melhor que a média histórica na maior parte dos indicadores;
+- 8 a 9: perto dos melhores valores da série na maioria dos indicadores;
+- 10: o melhor da série em quase tudo.
+
+Dimensões:
+1. Atividade e preços: PIB, PIB per capita em PPC e inflação (IPCA contra o teto da meta). Juros (Selic) e câmbio entram como contexto, não como bons ou ruins em si.
+2. Contas públicas: resultado primário, dívida bruta e líquida, investimento federal.
+3. Trabalho e renda: desemprego, salário mínimo real, rendimento do trabalho, salário mínimo em dólar.
+4. Desigualdade e pobreza: Gini, pobreza, extrema pobreza, insegurança alimentar grave, Mapa da Fome.
+5. Meio ambiente e energia: desmatamento na Amazônia, energia renovável, acesso à energia elétrica.
+6. Saúde e educação: vacinação, mortalidade infantil, ensino superior.
+
+Quando os indicadores de uma dimensão andarem em direções opostas, explique como pesou cada um. A nota geral é a média simples das seis, com uma casa decimal; mostre a conta. Temas sem dado no painel (segurança pública, saneamento e educação básica, por exemplo) ficam fora da nota: diga isso, sem supor.
+
+## Neutralidade
+- Avalie o país, não governos, partidos ou pessoas. Refira-se a períodos pelo ano, não pelo governo. Não atribua mérito nem culpa e não use o placar por mandato do painel.
+- Em cada dimensão, mostre o que melhorou e o que piorou, com o mesmo cuidado.
+- Ao explicar uma variação, considere o contexto externo e o ciclo econômico (preço das commodities, crise de 2008, pandemia).
+- Use números e linguagem descritiva; evite adjetivos de torcida ("desastre", "milagre").
+- Separe o dado, a interpretação e a incerteza.
+
+## Formato da resposta
+Em português do Brasil, direto, com no máximo 1.500 palavras fora as tabelas:
+1. Verificação: arquivos abertos e a tabela dos números conferidos.
+2. Panorama: uma tabela por dimensão e 2 ou 3 frases sobre cada uma.
+3. Notas: a de cada dimensão, com uma frase de justificativa, e a geral com a conta.
+4. O que mais pesou: até 3 fatores para cima e 3 para baixo.
+5. Limites: o que a análise não cobre e o que mudaria a nota.</pre>
+    </div>
+  </section>
+
   <p class="foot">Fontes: IBGE (Contas Nacionais, IPCA, PNAD Contínua, PME, PNAD, POF, Síntese de Indicadores Sociais), Banco Central do Brasil (Copom, Estatísticas Fiscais, metas de inflação, câmbio), Tesouro Nacional (Resultado do Tesouro Nacional), Ipea (salário mínimo real), INPE (Prodes), EPE (Balanço Energético Nacional), OMS/UNICEF (vacinação), ONU/IGME (mortalidade infantil), FMI (World Economic Outlook), BIS (taxas de câmbio efetivas), Federal Reserve (câmbio, via FRED), Banco Mundial (PIB per capita em PPC e acesso à eletricidade) e FAO/ONU (relatório SOFI). Detalhes de cada série em <a href="#fontes">Fontes e notas</a>.</p>
 </div>
 </main>

@@ -216,6 +216,15 @@ de −100 a +100, só com os indicadores que têm dado no mandato. Peso 0 ignora
 peso negativo inverte o sentido. Os pesos começam em +5 (com pesos iguais, o ranking repete o
 placar) e ficam no `localStorage` do navegador.
 
+## Análise da IA
+
+No fim da página, um prompt pronto pede a um assistente de IA que abra os CSVs, confira alguns
+números nas fontes oficiais e dê uma nota de 0 a 10 à situação atual do país, comparada ao
+próprio histórico desde 2000, sem avaliar governos. O texto fica em `index.html`
+(`#prompt-ia`). O `app.js` troca `{SITE}` pelo endereço de onde a página foi aberta e
+`{ARQUIVOS}` por um link para cada CSV do `fontes.json`, então série nova entra no prompt
+sozinha. Aberto pelo endereço local (`.local`), o prompt leva links que a IA não alcança.
+
 ## Sobre os números
 
 As séries do script saem direto das APIs oficiais e mudam quando os órgãos as revisam

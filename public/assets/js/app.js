@@ -355,7 +355,21 @@
       ul.appendChild(li);});
     // A página abriu com #fonte-x no endereço: o item só existe agora, então rola até ele.
     if(location.hash.startsWith('#fonte-'))document.getElementById(location.hash.slice(1))?.scrollIntoView();
+    // Prompt da Análise da IA: o endereço desta página e um link por CSV. A IA não roda o JavaScript da página, e
+    // algumas só abrem links escritos no prompt.
+    const pr=document.getElementById('prompt-ia'),site=new URL('.',location.href).href;
+    pr.textContent=pr.textContent.replace(/\{SITE\}/g,site)
+      .replace('{ARQUIVOS}',[...new Set(fontes.flatMap(f=>f.arquivos))].map(a=>'- '+site+'data/'+a).join('\n'));
   }).catch(e=>console.error('[fontes]',e));
+
+  document.getElementById('copiar-prompt').addEventListener('click',()=>{
+    const pr=document.getElementById('prompt-ia'),aviso=document.getElementById('prompt-ia-aviso');
+    const dizer=ok=>{aviso.textContent=ok?'Prompt copiado.':'Não deu para copiar: selecione o texto e use Ctrl+C.';};
+    // Em http não há navigator.clipboard: seleciona o texto e usa o comando antigo.
+    const antigo=()=>{getSelection().selectAllChildren(pr);return document.execCommand('copy');};
+    if(navigator.clipboard)navigator.clipboard.writeText(pr.textContent).then(()=>dizer(true),()=>dizer(antigo()));
+    else dizer(antigo());
+  });
 
   dash.onData(()=>{
     // Séries com 2026 parcial: as linhas do parcial.csv entram como mais um ano (com `ate`). Sem o parcial.csv,
