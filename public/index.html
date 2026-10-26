@@ -95,7 +95,15 @@
 
   <section id="governos">
     <h2>Por governo</h2>
-    <div class="grid">
+    <div class="card" id="card-ranking" data-fontes="governos"><h3 id="h-ranking">Monte seu ranking</h3>
+      <p class="note">Dê a cada indicador um peso de −10 a +10, conforme ele pesa na sua opinião. Cada indicador vale o veredito do mandato (✓ +1, = 0, ✗ −1) vezes o peso; a nota vai de −100 a +100. Peso 0 ignora o indicador, e peso negativo inverte o sentido: a melhora conta contra. “—” é sem dado e fica fora da conta. Dívida e pobreza entram com duas medidas cada. Os pesos ficam salvos só neste navegador.</p>
+      <div class="pesos" id="pesos"></div>
+      <div class="chips"><button type="button" id="pesos-iguais">Pesos iguais</button></div>
+      <p class="note" id="ranking-aviso" hidden>Dê peso a pelo menos um indicador.</p>
+      <ol class="ranking" id="ranking" data-source="governos"></ol>
+      <p class="note note-end">Clique num governo para ver quanto cada indicador somou ou tirou. * em andamento.</p>
+    </div>
+    <div class="grid mt-md">
       <div class="card" id="card-gov-chart" data-fontes="governos"><h3 id="h-gov">Comparar mandatos</h3>
         <p class="note">Escolha o indicador. A barra é quanto ele mudou no mandato: o último valor do mandato menos a herança, que é o último valor do governo anterior. No PIB e no IPCA, a barra é a média do mandato menos a referência (América Latina e teto da meta). ✓ melhorou, ✗ piorou, = mudou menos que a tolerância. * em andamento.</p>
         <div class="chips" id="gov-chips"></div>
@@ -121,6 +129,7 @@
 <script src="assets/js/dash.js"></script>
 <script src="assets/js/parcial.js"></script>
 <script src="assets/js/governos.js"></script>
+<script src="assets/js/ranking.js"></script>
 <script src="assets/js/app.js"></script>
 </body>
 </html>

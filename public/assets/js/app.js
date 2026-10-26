@@ -232,6 +232,48 @@
     linha('Placar','governos',(td,r)=>{const p=r.placar;td.textContent=`✓ ${p.melhorou} · ✗ ${p.piorou} · = ${p.estavel}`;
       td.title=`melhorou ${p.melhorou}, piorou ${p.piorou}, estável ${p.estavel}, sem dado ${p.semDado}`;},'placar');
   }
+  // Ranking com os pesos do leitor (ranking.js): um controle de −10 a +10 por indicador do GM. Os pesos ficam no
+  // localStorage, que pode faltar (aba anônima, bloqueio): aí vale o padrão.
+  const PADRAO=5,CHAVE='ranking-pesos',pesos={};
+  GM.forEach(m=>{pesos[m[0]]=PADRAO;});
+  try{const s=JSON.parse(localStorage.getItem(CHAVE))||{};
+    for(const k in pesos)if(Number.isInteger(s[k])&&Math.abs(s[k])<=10)pesos[k]=s[k];}catch(e){}
+  const salvar=()=>{try{localStorage.setItem(CHAVE,JSON.stringify(pesos));}catch(e){}};
+  const pesosBox=document.getElementById('pesos');
+  GM.forEach(m=>{const id='peso-'+m[0],l=document.createElement('label'),r=document.createElement('input'),o=document.createElement('output');
+    l.htmlFor=id;l.textContent=m[1];o.setAttribute('for',id);o.textContent=sinal(pesos[m[0]],0);
+    Object.assign(r,{type:'range',id,min:-10,max:10,step:1,value:pesos[m[0]]});r.dataset.k=m[0];
+    const d=document.createElement('div');d.className='peso';d.append(l,r,o);pesosBox.appendChild(d);});
+  const pesar=(r,v)=>{r.value=v;pesos[r.dataset.k]=v;r.nextElementSibling.textContent=sinal(v,0);};
+  pesosBox.addEventListener('input',e=>{pesar(e.target,+e.target.value);salvar();drawRanking();});
+  document.getElementById('pesos-iguais').addEventListener('click',()=>{
+    pesosBox.querySelectorAll('input').forEach(r=>pesar(r,PADRAO));salvar();drawRanking();});
+  // Uma linha por governo, da maior nota para a menor, com a nota em texto e uma barra que parte do meio (0).
+  // O detalhe mostra herança → entrega, o peso e os pontos de cada indicador; quem estava aberto continua aberto.
+  function drawRanking(){
+    const ol=document.getElementById('ranking');
+    const abertos=new Set([...ol.querySelectorAll('details[open]')].map(d=>d.dataset.g));ol.innerHTML='';
+    const aviso=document.getElementById('ranking-aviso');
+    if(!govRows){aviso.hidden=true;return;}
+    const rs=rankear(govRows,pesos);aviso.hidden=rs.some(r=>r.nota!=null);
+    const el=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;};
+    rs.forEach(r=>{
+      const d=el('details');d.dataset.g=r.governo;d.open=abertos.has(r.governo);
+      const nome=el('span','nome',r.governo+(r.andamento?'*':''));nome.appendChild(el('span','yr',r.anos));
+      const barra=el('span','barra'),b=el('i',r.nota<0?'neg':'pos');barra.appendChild(b);
+      if(r.nota!=null)b.style.width=Math.abs(r.nota)/2+'%';
+      const s=el('summary');s.append(el('span','lugar',r.posicao?r.posicao+'º':'—'),nome,barra,el('span','nota',r.nota!=null?sinal(r.nota,0):r.cobertura.total?'sem dado':'—'));
+      d.appendChild(s);
+      par(d,`Dado em ${r.cobertura.com} de ${r.cobertura.total} indicadores com peso.`,'note');
+      const ind=govRows.find(g=>g.governo===r.governo).ind,tb=el('tbody'),t=el('table');
+      r.partes.forEach(p=>{const m=GM.find(x=>x[0]===p.k),tr=el('tr'),td=el('td');
+        govCell(td,m,ind[p.k]);
+        tr.append(el('td',null,m[1]),td,el('td','pts',p.pontos==null?'fora da conta':
+          `${sinal(p.peso,0)} × ${sinal(p.pontos/p.peso||0,0)} = ${sinal(p.pontos,0)}`));tb.appendChild(tr);});
+      t.appendChild(tb);d.appendChild(t);
+      const li=el('li');li.appendChild(d);ol.appendChild(li);
+    });
+  }
   // Ranking do G20 contra o dólar (moedas_g20.csv): uma barra por moeda, da que mais ganhou valor em dólar para a que
   // mais perdeu. O real se distingue pela cor, pelo negrito e pela frase abaixo; os botões trocam o recorte.
   let g20Per='desde',g20Rows=null;
@@ -437,5 +479,6 @@
     const gv=dash.data('governos'),gb=document.getElementById('c-gov');
     if(holdState(gb,gv.status)){govRows=gv.data;drawGov(gb,govRows);govTable(govRows);}
     else{govRows=null;document.querySelector('#t-gov thead').innerHTML='';document.querySelector('#t-gov tbody').innerHTML='';}
+    drawRanking();
   });
 })();

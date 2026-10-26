@@ -26,6 +26,7 @@ brasil-em-numeros/
 │   │   ├── js/dash.js       ← carrega os CSVs e avisa a página quando chegam
 │   │   ├── js/parcial.js    ← junta o 2026 parcial às séries anuais
 │   │   ├── js/governos.js   ← cálculo por mandato (herança → entrega e placar)
+│   │   ├── js/ranking.js    ← ranking dos mandatos com os pesos do leitor
 │   │   └── js/app.js        ← gráficos e tabelas
 │   └── data/
 │       ├── *.csv            ← uma série por arquivo (parcial.csv: o ano corrente)
@@ -198,6 +199,15 @@ python3 -B -m unittest discover -s tests -p 'test_*.py'
   ✓, ✗ e = sem pesos, e a Selic entra só como contexto.
 - O mandato em andamento usa o 2026 parcial como entrega nos indicadores de nível (e na
   Selic); PIB e IPCA usam só anos fechados.
+
+### Monte seu ranking
+
+O leitor dá a cada indicador do placar um peso de −10 a +10, e os mandatos se reordenam na hora
+(`public/assets/js/ranking.js`, testado em `tests/ranking.test.js`). Cada indicador vale o
+veredito do placar (✓ +1, = 0, ✗ −1) vezes o peso; a nota é `Σ peso × veredito / Σ |peso|`,
+de −100 a +100, só com os indicadores que têm dado no mandato. Peso 0 ignora o indicador e
+peso negativo inverte o sentido. Os pesos começam em +5 (com pesos iguais, o ranking repete o
+placar) e ficam no `localStorage` do navegador.
 
 ## Sobre os números
 

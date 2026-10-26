@@ -168,6 +168,6 @@
   {"id": "governos", "title": "Placar por mandato · cálculo do painel", "fonte": "cálculo do painel",
    "description": "Calculado no navegador a partir das séries acima, com as regras descritas na seção Por governo. O código do cálculo está publicado junto com o painel.",
    "links": [{"texto": "código do cálculo (governos.js)", "url": "assets/js/governos.js"},
-             {"texto": "junção do parcial (parcial.js)", "url": "assets/js/parcial.js"}],
+             {"texto": "junção do parcial (parcial.js)", "url": "assets/js/parcial.js"}, {"texto": "ranking com os pesos do leitor (ranking.js)", "url": "assets/js/ranking.js"}],
    "arquivos": []}
 ]

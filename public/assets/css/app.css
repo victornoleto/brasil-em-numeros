@@ -68,3 +68,33 @@
 #dash-root .bx .fontes li p{margin:var(--ui-gap-xs) 0 0;overflow-wrap:anywhere}
 #dash-root .bx .fontes li{scroll-margin-top:var(--ui-gap-xl)}
 #dash-root .bx .fontes li:target{outline:2px solid var(--color-fg);outline-offset:2px}
+/* Monte seu ranking (app.js, drawRanking): um controle por indicador e uma linha por governo. A nota em texto,
+   com sinal, é o sinal; a barra parte do meio (0) e a cor só reforça. */
+#dash-root .bx .pesos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:var(--ui-gap-xs) var(--ui-gap-lg);margin-bottom:var(--ui-gap-md)}
+#dash-root .bx .peso{display:grid;grid-template-columns:1fr minmax(6rem,9rem) 2rem;align-items:center;gap:var(--ui-gap-sm)}
+#dash-root .bx .pesos label{font-size:var(--ui-font-size-caption);color:var(--color-fg)}
+#dash-root .bx .pesos input{accent-color:var(--chart-1);width:100%;margin:0}
+#dash-root .bx .pesos output{font-size:var(--ui-font-size-caption);font-variant-numeric:tabular-nums;text-align:right}
+#dash-root .bx .ranking{list-style:none;margin:0;padding:0;font-size:var(--ui-font-size-caption)}
+#dash-root .bx .ranking li{border-bottom:1px solid var(--color-border-line)}
+#dash-root .bx .ranking summary{display:grid;grid-template-columns:2rem 6.5rem 1fr 3rem;align-items:center;gap:var(--ui-gap-sm);padding:var(--ui-gap-sm) 0;cursor:pointer}
+#dash-root .bx .ranking .lugar{color:var(--color-fg-muted);font-variant-numeric:tabular-nums}
+#dash-root .bx .ranking .nome{font-weight:600}
+#dash-root .bx .ranking .nome .yr{display:block;font-weight:400;color:var(--color-fg-muted)}
+#dash-root .bx .ranking .nota{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+#dash-root .bx .ranking .barra{position:relative;height:12px}
+#dash-root .bx .ranking .barra::before{content:'';position:absolute;left:50%;top:-4px;bottom:-4px;border-left:1px solid var(--ui-chart-axis)}
+#dash-root .bx .ranking .barra i{position:absolute;top:0;bottom:0;border-radius:3px}
+#dash-root .bx .ranking .barra i.pos{left:50%;background:var(--color-ok)}
+#dash-root .bx .ranking .barra i.neg{right:50%;background:var(--ui-chart-status-critical)}
+#dash-root .bx .ranking details>.note{margin:0 0 var(--ui-gap-xs)}
+#dash-root .bx .ranking table{margin-bottom:var(--ui-gap-md);font-variant-numeric:tabular-nums}
+#dash-root .bx .ranking td+td{white-space:nowrap}
+#dash-root .bx .ranking td.pts{text-align:right}
+@media (max-width:30rem){
+  #dash-root .bx .ranking summary{grid-template-columns:2rem 1fr 3rem;grid-template-areas:"lugar nome nota" "lugar barra barra"}
+  #dash-root .bx .ranking .lugar{grid-area:lugar}
+  #dash-root .bx .ranking .nome{grid-area:nome}
+  #dash-root .bx .ranking .nota{grid-area:nota}
+  #dash-root .bx .ranking .barra{grid-area:barra}
+}
