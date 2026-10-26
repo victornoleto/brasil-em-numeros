@@ -160,7 +160,7 @@ test('placar conta cada indicador uma vez e deixa a Selic fora', () => {
 2018,6.50`),
   });
   const t = governo(out, 'Temer');
-  assert.deepEqual(t.placar, { melhorou: 1, piorou: 2, estavel: 1, semDado: 10 });
+  assert.deepEqual(t.placar, { melhorou: 1, piorou: 2, estavel: 1, semDado: 15 });
   assert.deepEqual(t.ind.selic, { entregou: 6.5, anoEntregou: 2018 });
 });
 
@@ -225,6 +225,57 @@ test('rendimento real do trabalho entra no placar com variação relativa', () =
   const r = governo(out, 'Bolsonaro').ind.rendimento;
   assert.equal(r.delta, -4.8387);
   assert.equal(r.veredito, 'piorou');
+});
+
+test('investimento federal começa em 2008: Lula 1 sem dado, Lula 2 herda o 1º ano do mandato', () => {
+  const out = rodar({ investimento: csv(`ano,investimento
+2008,0.84
+2010,1.15
+2014,0.99`) });
+  assert.equal(governo(out, 'Lula 1').ind.investimento, null);
+  assert.deepEqual(governo(out, 'Lula 2').ind.investimento,
+    { herdou: 0.84, anoHerdou: 2008, entregou: 1.15, anoEntregou: 2010, delta: 0.31, veredito: 'melhorou' });
+  assert.equal(governo(out, 'Dilma 1').ind.investimento.veredito, 'piorou'); // −0,16 p.p.
+});
+
+test('mortalidade infantil melhora quando cai, em variação relativa: −3,8% melhora, −2,4% é estável', () => {
+  const out = rodar({ mortalidade_infantil: csv(`ano,mortalidade_infantil
+2018,13.1
+2022,12.6
+2024,12.3`) });
+  // Em pontos por mil, as duas quedas (−0,5 e −0,3) caberiam na tolerância de 3.
+  assert.equal(governo(out, 'Bolsonaro').ind.mortalidade_infantil.veredito, 'melhorou');
+  assert.equal(governo(out, 'Lula 3').ind.mortalidade_infantil.veredito, 'estavel');
+});
+
+test('ensino superior atravessa a lacuna de 2020–2021: Bolsonaro herda 2018 e entrega 2022', () => {
+  const out = rodar({ ensino_superior: csv(`ano,ensino_superior
+2016,23.1
+2018,24.2
+2019,24.7
+2022,25.0`) });
+  assert.deepEqual(governo(out, 'Bolsonaro').ind.ensino_superior,
+    { herdou: 24.2, anoHerdou: 2018, entregou: 25, anoEntregou: 2022, delta: 0.8, veredito: 'estavel' });
+  assert.equal(governo(out, 'Temer').ind.ensino_superior.veredito, 'melhorou'); // 2016 → 2018: +1,1 p.p.
+});
+
+test('energia renovável melhora quando sobe, em pontos percentuais: +0,9 p.p. é estável', () => {
+  const out = rodar({ renovaveis: csv(`ano,renovaveis
+2006,44.7
+2010,45.6
+2014,39.7`) });
+  assert.equal(governo(out, 'Lula 2').ind.renovaveis.veredito, 'estavel'); // em variação relativa seria +2,0%
+  assert.equal(governo(out, 'Dilma 1').ind.renovaveis.veredito, 'piorou');
+});
+
+test('acesso à energia elétrica melhora quando sobe; até 0,5 p.p. é estável', () => {
+  const out = rodar({ energia_eletrica: csv(`ano,energia_eletrica
+2002,96.7
+2006,97.6
+2018,99.7
+2022,100`) });
+  assert.equal(governo(out, 'Lula 1').ind.energia_eletrica.veredito, 'melhorou'); // +0,9 p.p.
+  assert.equal(governo(out, 'Bolsonaro').ind.energia_eletrica.veredito, 'estavel'); // +0,3 p.p.
 });
 
 test('mandato em andamento é o que ainda não tem o PIB do último ano', () => {

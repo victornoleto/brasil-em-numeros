@@ -1,10 +1,11 @@
 # Brasil em números 2000–2025
 
 Painel estático com os principais indicadores do Brasil de 2000 a 2025, com 2026 parcial
-(PIB, inflação, Selic, contas públicas, desemprego, salário mínimo, rendimento do trabalho,
-câmbio e poder de compra, Gini, pobreza, insegurança alimentar, Mapa da Fome, desmatamento e
-vacinação) e um placar por mandato presidencial. Fontes: IBGE, Banco Central, Ipea, INPE,
-OMS/UNICEF, FMI, BIS, Federal Reserve, Banco Mundial e FAO/ONU. Cada gráfico mostra de onde
+(PIB, inflação, Selic, contas públicas, investimento federal, desemprego, salário mínimo,
+rendimento do trabalho, câmbio e poder de compra, Gini, pobreza, insegurança alimentar, Mapa da
+Fome, desmatamento, energia, vacinação, mortalidade infantil e ensino superior) e um placar por
+mandato presidencial. Fontes: IBGE, Banco Central, Tesouro Nacional, Ipea, INPE, EPE,
+OMS/UNICEF, ONU (IGME), FMI, BIS, Federal Reserve, Banco Mundial e FAO/ONU. Cada gráfico mostra de onde
 vêm os dados, com link para a origem e para o CSV.
 
 Não tem build, back-end nem dependências externas: HTML + CSS + JS puro, com o d3 v7.9.0
@@ -140,6 +141,7 @@ separar colunas (campos com vírgula vão entre aspas, como em `mapa_fome.csv`).
 | `meta_inflacao.csv` | `ano,meta,tolerancia` | à mão · CMN, % |
 | `selic.csv` | `ano,selic` | script · meta em 31/12, % a.a. |
 | `primario.csv` | `ano,primario` | script · governo federal, % do PIB; superávit > 0 |
+| `investimento.csv` | `ano,investimento` | à mão · Tesouro (RTN, Tabela 2.3-A), investimento do governo central, % do PIB, desde 2008 |
 | `divida.csv` | `ano,divida` | script · bruta do governo geral, % do PIB, dezembro |
 | `divida_liquida.csv` | `ano,divida_liquida` | script · líquida do setor público, % do PIB, dezembro |
 | `desemprego.csv` | `ano,taxa,pesquisa` | à mão (o parcial vem do script) · `pesquisa` = `PME` ou `PNADC` |
@@ -156,7 +158,11 @@ separar colunas (campos com vírgula vão entre aspas, como em `mapa_fome.csv`).
 | `fome.csv` | `periodo,ia_grave,pesquisa` | à mão · % dos domicílios |
 | `mapa_fome.csv` | `relatorio,situacao,detalhe` | à mão · `situacao` = `No mapa` ou `Fora do mapa` |
 | `desmatamento.csv` | `ano,km2,tipo` | à mão · INPE Prodes; `tipo` = `consolidado` ou `estimativa` |
+| `renovaveis.csv` | `ano,renovaveis` | à mão · EPE (BEN, Tabela 1.3.b), % da oferta interna de energia |
+| `energia_eletrica.csv` | `ano,energia_eletrica` | script · Banco Mundial, % da população com acesso |
 | `vacinacao.csv` | `ano,sarampo` | script · OMS/UNICEF, % com a 1ª dose |
+| `mortalidade_infantil.csv` | `ano,mortalidade_infantil` | script · ONU (IGME) via Banco Mundial, por mil nascidos vivos |
+| `ensino_superior.csv` | `ano,ensino_superior` | script · IBGE, % de 18 a 24 anos; sem 2020 e 2021 (`LACUNAS` no script) |
 | `parcial.csv` | `serie,coluna,ano,valor,ate` | script · ano corrente, até o mês `ate` |
 
 Os cartões do topo usam o último ano fechado (2025; fome, 2024) fixo no HTML: quando 2026
@@ -189,8 +195,9 @@ python3 -B -m unittest discover -s tests -p 'test_*.py'
 
 - O ano conta para quem governou a maior parte dele: Dilma 2 = 2015, Temer = 2016–2018.
   A lista fica em `MANDATOS`, no início do arquivo.
-- Indicadores de nível (desemprego, primário, dívidas, Gini, pobreza, fome, salário
-  mínimo, rendimento do trabalho, desmatamento e vacinação) comparam herança e entrega. Herança é o último valor
+- Indicadores de nível (desemprego, primário, investimento federal, dívidas, Gini, pobreza,
+  fome, salário mínimo, rendimento do trabalho, desmatamento, energia renovável, acesso à
+  energia elétrica, vacinação, mortalidade infantil e ensino superior) comparam herança e entrega. Herança é o último valor
   dos 4 anos anteriores ao mandato, ou o 1º do próprio mandato se não houver. Entrega é o
   último valor do mandato. O desemprego só compara a mesma pesquisa (PME × PNAD Contínua).
 - PIB: média composta do Brasil contra a da América Latina nos mesmos anos. IPCA: média
@@ -213,8 +220,8 @@ placar) e ficam no `localStorage` do navegador.
 
 As séries do script saem direto das APIs oficiais e mudam quando os órgãos as revisam
 (sobretudo a dívida, recalculada pelo BC quando o IBGE revisa o PIB). Desemprego,
-pobreza, insegurança alimentar, Mapa da Fome, metas de inflação e desmatamento foram
-transcritos das publicações oficiais e conferidos em 26/10/2026. O desmatamento de 2026 é a estimativa do Prodes divulgada em
+pobreza, insegurança alimentar, Mapa da Fome, metas de inflação, desmatamento, investimento
+federal e energia renovável foram transcritos das publicações oficiais e conferidos em 26/10/2026. O desmatamento de 2026 é a estimativa do Prodes divulgada em
 outubro de 2026; o consolidado sai no ano seguinte. Detalhes na seção "Fontes e notas"
 do próprio painel.
 

@@ -17,6 +17,7 @@ const MANDATOS=[['FHC 2',1999,2002],['Lula 1',2003,2006],['Lula 2',2007,2010],['
 const NIVEIS=[
   {k:'desemprego',de:'desemprego',col:'taxa',sobe:false,tol:0.5,pesquisa:true}, // PME e PNADC não se comparam
   {k:'primario',de:'primario',col:'primario',sobe:true,tol:0.3},
+  {k:'investimento',de:'investimento',col:'investimento',sobe:true,tol:0.1},
   {k:'divida',de:'divida',col:'divida',sobe:false,tol:1},
   {k:'divida_liquida',de:'divida_liquida',col:'divida_liquida',sobe:false,tol:1},
   {k:'gini',de:'gini',col:'gini',sobe:false,tol:0.005},
@@ -26,9 +27,14 @@ const NIVEIS=[
   {k:'salario',de:'salario_minimo',col:'salario_real',sobe:true,tol:2,rel:true},
   {k:'rendimento',de:'rendimento',col:'rendimento',sobe:true,tol:2,rel:true},
   {k:'desmatamento',de:'desmatamento',col:'km2',sobe:false,tol:5,rel:true},
-  {k:'vacinacao',de:'vacinacao',col:'sarampo',sobe:true,tol:2}];
-const ENTRADAS=['pib','pib_mundo','ipca','meta_inflacao','selic','desemprego','primario','divida','divida_liquida',
-  'gini','pobreza','fome','salario_minimo','rendimento','desmatamento','vacinacao','parcial'];
+  {k:'renovaveis',de:'renovaveis',col:'renovaveis',sobe:true,tol:1},
+  {k:'energia_eletrica',de:'energia_eletrica',col:'energia_eletrica',sobe:true,tol:0.5},
+  {k:'vacinacao',de:'vacinacao',col:'sarampo',sobe:true,tol:2},
+  {k:'mortalidade_infantil',de:'mortalidade_infantil',col:'mortalidade_infantil',sobe:false,tol:3,rel:true},
+  {k:'ensino_superior',de:'ensino_superior',col:'ensino_superior',sobe:true,tol:1}]; // o IBGE não divulgou 2020 e 2021
+const ENTRADAS=['pib','pib_mundo','ipca','meta_inflacao','selic','desemprego','primario','investimento','divida',
+  'divida_liquida','gini','pobreza','fome','salario_minimo','rendimento','desmatamento','renovaveis','energia_eletrica',
+  'vacinacao','mortalidade_infantil','ensino_superior','parcial'];
 
 dash.calc('governos',{
   inputs:ENTRADAS,

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Brasil em números 2000–2025</title>
-<meta name="description" content="Painel com os principais indicadores do Brasil de 2000 a 2025, com 2026 parcial — PIB, inflação, desemprego, juros, contas públicas, salário mínimo, renda do trabalho, câmbio e poder de compra, desigualdade, pobreza, fome, desmatamento e vacinação — a partir de IBGE, Banco Central, Ipea, INPE, OMS/UNICEF, FMI, BIS, Federal Reserve, Banco Mundial e FAO/ONU, com placar por governo e a fonte de cada número.">
+<meta name="description" content="Painel com os principais indicadores do Brasil de 2000 a 2025, com 2026 parcial — PIB, inflação, desemprego, juros, contas públicas, investimento federal, salário mínimo, renda do trabalho, câmbio e poder de compra, desigualdade, pobreza, fome, desmatamento, energia, vacinação, mortalidade infantil e ensino superior — a partir de IBGE, Banco Central, Tesouro Nacional, Ipea, INPE, EPE, OMS/UNICEF, ONU (IGME), FMI, BIS, Federal Reserve, Banco Mundial e FAO/ONU, com placar por governo e a fonte de cada número.">
 <meta name="theme-color" content="#faf9f7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1a1918" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f6fdb'/%3E%3Crect x='7' y='17' width='4' height='8' rx='1.5' fill='white'/%3E%3Crect x='14' y='11' width='4' height='14' rx='1.5' fill='white'/%3E%3Crect x='21' y='7' width='4' height='18' rx='1.5' fill='white'/%3E%3C/svg%3E">
@@ -49,6 +49,7 @@
       <div class="card" data-fontes="ipca meta_inflacao"><h3 id="h-ipca">Inflação · IPCA no ano e teto da meta (%)</h3><p class="note">IPCA de dezembro a dezembro. Acima da linha do teto, a meta do Conselho Monetário Nacional foi estourada.</p><div class="ch" id="c-ipca" data-source="ipca"></div><div class="lg" id="l-ipca"></div></div>
       <div class="card" data-fontes="selic"><h3 id="h-selic">Juros · Selic no fim do ano (% a.a.)</h3><p class="note">Meta da taxa básica definida pelo Copom, em vigor em 31 de dezembro; em 2026, a que vigora hoje.</p><div class="ch" id="c-selic" data-source="selic"></div></div>
       <div class="card" data-fontes="primario"><h3 id="h-prim">Resultado primário do governo federal (% do PIB)</h3><p class="note">Receitas menos despesas do Tesouro e do INSS, sem os juros da dívida. Abaixo de zero, déficit.</p><div class="ch" id="c-prim" data-source="primario"></div></div>
+      <div class="card" data-fontes="investimento"><h3 id="h-inv">Investimento do governo federal (% do PIB)</h3><p class="note">Obras e equipamentos pagos pelo governo central, inclusive restos a pagar e emendas parlamentares; sem as estatais. A série anual do Tesouro começa em 2008.</p><div class="ch" id="c-inv" data-source="investimento"></div></div>
       <div class="card" data-fontes="divida divida_liquida"><h3 id="h-div">Dívida pública (% do PIB)</h3><p class="note">Bruta: o que o governo geral deve. Líquida: desconta o que o setor público tem a receber, como as reservas internacionais.</p><div class="ch" id="c-div" data-source="divida"></div><div class="lg" id="l-div"></div></div>
     </div>
   </section>
@@ -85,11 +86,21 @@
     </div>
   </section>
 
-  <section id="ambiente-saude">
-    <h2>Meio ambiente e saúde</h2>
+  <section id="ambiente">
+    <h2>Meio ambiente e energia</h2>
     <div class="grid">
       <div class="card" data-fontes="desmatamento"><h3 id="h-desm">Desmatamento na Amazônia (km² por ano)</h3><p class="note">Prodes/INPE. O ano vai de agosto a julho; 2026 é estimativa. Fiscalização e embargos (Ibama, ICMBio, Polícia Federal) são federais.</p><div class="ch" id="c-desm" data-source="desmatamento"></div></div>
+      <div class="card" data-fontes="renovaveis"><h3 id="h-ren">Energia renovável (% da oferta interna de energia)</h3><p class="note">Hidrelétricas, biomassa, eólica e solar sobre toda a energia ofertada no país (EPE). Leilões de energia e a mistura obrigatória de etanol e biodiesel são decisões federais; as secas de 2001, 2014–2015 e 2021 derrubam a parcela.</p><div class="ch" id="c-ren" data-source="renovaveis"></div></div>
+      <div class="card" data-fontes="energia_eletrica"><h3 id="h-ele">Acesso à energia elétrica (% da população)</h3><p class="note">Banco Mundial. O Luz para Todos (2003) é do Ministério de Minas e Energia. Desde 2014 o acesso fica entre 99,5% e 100%, então os mandatos seguintes saem estáveis.</p><div class="ch" id="c-ele" data-source="energia_eletrica"></div></div>
+    </div>
+  </section>
+
+  <section id="saude-educacao">
+    <h2>Saúde e educação</h2>
+    <div class="grid">
       <div class="card" data-fontes="vacinacao"><h3 id="h-vac">Vacinação contra sarampo (% das crianças de 1 ano)</h3><p class="note">1ª dose, estimativas da OMS e do UNICEF. O Programa Nacional de Imunizações é federal; a meta do Ministério da Saúde é 95%.</p><div class="ch" id="c-vac" data-source="vacinacao"></div></div>
+      <div class="card" data-fontes="mortalidade_infantil"><h3 id="h-mort">Mortalidade infantil (óbitos por mil nascidos vivos)</h3><p class="note">Menores de 1 ano, estimativa da ONU (IGME). Saúde da Família, Rede Cegonha e o Programa Nacional de Imunizações são federais, executados com estados e municípios.</p><div class="ch" id="c-mort" data-source="mortalidade_infantil"></div></div>
+      <div class="card" data-fontes="ensino_superior"><h3 id="h-sup">Ensino superior · jovens de 18 a 24 anos (%)</h3><p class="note">Fazem ou já concluíram a graduação (PNAD Contínua). ProUni, Fies, Sisu, cotas e as universidades federais são do MEC. A série começa em 2016, e o IBGE não divulgou 2020 e 2021.</p><div class="ch" id="c-sup" data-source="ensino_superior"></div></div>
     </div>
   </section>
 
@@ -112,7 +123,7 @@
     <div class="card mt-md" data-fontes="governos parcial"><h3 id="h-gov-tab">Resumo por mandato</h3>
       <p class="note">Cada ano conta para quem governou a maior parte dele: Dilma 2 fica com 2015 (foi afastada em 12/05/2016) e Temer com 2016–2018. Cada célula mostra herança → entrega, ou Brasil vs referência no PIB e no IPCA. Passe o mouse para ver os anos usados. Sem herança dentro dos 4 anos anteriores, vale o 1º valor do próprio mandato. O desemprego só compara a mesma pesquisa (PME até 2011, PNAD Contínua depois). “—” é sem dado e não conta a favor nem contra. Lula 3 ainda está no mandato: nos indicadores de nível, a entrega é o valor de 2026 até o último mês divulgado (o mês aparece ao passar o mouse); PIB e IPCA usam só anos fechados. O nome de cada linha leva à fonte.</p>
       <div class="tw"><table id="t-gov" data-source="governos"><thead></thead><tbody></tbody></table></div>
-      <p class="note note-end">O placar é uma contagem simples, sem pesos; dívida e pobreza entram com duas medidas cada. Tolerâncias: PIB 0,5 p.p./ano; IPCA 0,25 p.p.; desemprego, extrema pobreza e fome 0,5 p.p.; primário 0,3 p.p.; dívidas e pobreza 1 p.p.; Gini 0,005; salário mínimo e rendimento do trabalho 2%; desmatamento 5%; vacinação 2 p.p. Os números de cada mandato também refletem o cenário externo (crise de 2008, ciclo das commodities, pandemia), decisões de governos anteriores e o Congresso. A Selic é decidida pelo Copom, e o Banco Central é autônomo desde 2021.</p>
+      <p class="note note-end">O placar é uma contagem simples, sem pesos; dívida e pobreza entram com duas medidas cada. Tolerâncias: PIB 0,5 p.p./ano; IPCA 0,25 p.p.; desemprego, extrema pobreza, fome e acesso à energia elétrica 0,5 p.p.; primário 0,3 p.p.; investimento federal 0,1 p.p.; dívidas, pobreza, energia renovável e ensino superior 1 p.p.; Gini 0,005; salário mínimo e rendimento do trabalho 2%; mortalidade infantil 3%; desmatamento 5%; vacinação 2 p.p. Os números de cada mandato também refletem o cenário externo (crise de 2008, ciclo das commodities, pandemia), decisões de governos anteriores e o Congresso. A Selic é decidida pelo Copom, e o Banco Central é autônomo desde 2021.</p>
     </div>
   </section>
 
@@ -121,7 +132,7 @@
     <ul class="fontes" id="lista-fontes"></ul>
   </section>
 
-  <p class="foot">Fontes: IBGE (Contas Nacionais, IPCA, PNAD Contínua, PME, PNAD, POF, Síntese de Indicadores Sociais), Banco Central do Brasil (Copom, Estatísticas Fiscais, metas de inflação, câmbio), Ipea (salário mínimo real), INPE (Prodes), OMS/UNICEF (vacinação), FMI (World Economic Outlook), BIS (taxas de câmbio efetivas), Federal Reserve (câmbio, via FRED), Banco Mundial (PIB per capita em PPC) e FAO/ONU (relatório SOFI). Detalhes de cada série em <a href="#fontes">Fontes e notas</a>.</p>
+  <p class="foot">Fontes: IBGE (Contas Nacionais, IPCA, PNAD Contínua, PME, PNAD, POF, Síntese de Indicadores Sociais), Banco Central do Brasil (Copom, Estatísticas Fiscais, metas de inflação, câmbio), Tesouro Nacional (Resultado do Tesouro Nacional), Ipea (salário mínimo real), INPE (Prodes), EPE (Balanço Energético Nacional), OMS/UNICEF (vacinação), ONU/IGME (mortalidade infantil), FMI (World Economic Outlook), BIS (taxas de câmbio efetivas), Federal Reserve (câmbio, via FRED), Banco Mundial (PIB per capita em PPC e acesso à eletricidade) e FAO/ONU (relatório SOFI). Detalhes de cada série em <a href="#fontes">Fontes e notas</a>.</p>
 </div>
 </main>
 <noscript><p class="nojs">Este painel precisa de JavaScript para desenhar os gráficos.</p></noscript>

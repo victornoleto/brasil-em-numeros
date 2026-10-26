@@ -164,11 +164,14 @@
   //  linha do Resumo, para as células caberem: 8 mandatos lado a lado), id da fonte em data/fontes.json]
   const GM=[['pib','PIB × América Latina','p.p.',1,1,'% a.a.','pib_mundo'],['ipca','IPCA × teto da meta','p.p.',1,1,'% a.a.','meta_inflacao'],
     ['desemprego','Desemprego','p.p.',1,1,'%','desemprego'],['primario','Resultado primário','p.p.',2,2,'% do PIB','primario'],
+    ['investimento','Investimento federal','p.p.',2,2,'% do PIB','investimento'],
     ['divida','Dívida bruta','p.p.',1,1,'% do PIB','divida'],['divida_liquida','Dívida líquida','p.p.',1,1,'% do PIB','divida_liquida'],
     ['gini','Gini','',3,3,'','gini'],['extrema','Extrema pobreza','p.p.',1,1,'%','pobreza'],['pobreza','Pobreza','p.p.',1,1,'%','pobreza'],
     ['fome','Fome grave','p.p.',1,1,'% dom.','fome'],['salario','Salário mínimo real','%',1,0,'R$','salario_minimo'],
     ['rendimento','Rendimento do trabalho','%',1,0,'R$','rendimento'],['desmatamento','Desmatamento','%',0,0,'km²','desmatamento'],
-    ['vacinacao','Vacinação','p.p.',0,0,'%','vacinacao']];
+    ['renovaveis','Energia renovável','p.p.',1,1,'%','renovaveis'],['energia_eletrica','Acesso à energia elétrica','p.p.',1,1,'%','energia_eletrica'],
+    ['vacinacao','Vacinação','p.p.',0,0,'%','vacinacao'],['mortalidade_infantil','Mortalidade infantil','%',1,1,'por mil','mortalidade_infantil'],
+    ['ensino_superior','Ensino superior','p.p.',1,1,'%','ensino_superior']];
   const sinal=(v,d)=>(v>0?'+':'')+nf(v,d);
   const fmtDelta=(m,v)=>sinal(v,m[3])+(m[2]?(m[2]==='%'?'%':' '+m[2]):'');
   let govMetric='pib',govRows=null;
@@ -363,7 +366,9 @@
           gini=get('gini'),pob=get('pobreza'),fome=get('fome'),mapa=get('mapa_fome'),
           al=get('pib_mundo'),meta=get('meta_inflacao'),prim=gp('primario'),divl=gp('divida_liquida'),
           sal=gp('salario_minimo'),desm=get('desmatamento'),vac=get('vacinacao'),rend=gp('rendimento'),
-          cam=gp('cambio'),efe=gp('cambio_efetivo'),moe=gp('moedas'),sdol=gp('salario_dolar'),ppc=get('pib_ppc');
+          cam=gp('cambio'),efe=gp('cambio_efetivo'),moe=gp('moedas'),sdol=gp('salario_dolar'),ppc=get('pib_ppc'),
+          invest=get('investimento'),renov=get('renovaveis'),eletr=get('energia_eletrica'),mort=get('mortalidade_infantil'),
+          sup=get('ensino_superior');
     // Índice com base no primeiro ano (2000 = 100); inv: moeda por dólar vira dólar por moeda (o valor da moeda em dólar).
     const base=(rows,col,inv)=>{const b=rows[0][col];return rows.map(r=>({ano:r.ano,ate:r.ate,v:r[col]==null?null:(inv?b/r[col]:r[col]/b)*100}));};
     // Gráfico com duas fontes: só desenha quando as duas chegaram; senão mostra o estado da que falta.
@@ -404,6 +409,8 @@
       series:[{rows:selic.rows,x:'ano',y:'selic',color:C[0]}]});
     b=document.getElementById('c-prim');if(holdState(b,prim.status))draw(b,{kind:'bar',x0:2000,x1:2025,zero:true,d:2,unit:'%',
       series:[{rows:prim.rows,x:'ano',y:'primario',color:C[0]}],barColor:r=>r.primario<0?'var(--ui-chart-status-critical)':C[0]});
+    b=document.getElementById('c-inv');if(holdState(b,invest.status))draw(b,{kind:'bar',x0:2008,x1:2025,zero:true,d:2,unit:'%',
+      series:[{rows:invest.rows,x:'ano',y:'investimento',color:C[0]}]});
     b=document.getElementById('c-div');const ldv=document.getElementById('l-div');
     if(holdState(b,ambos(div,divl))){
       draw(b,{kind:'line',x0:2001,x1:2025,zero:false,d:1,unit:'%',series:[
@@ -416,6 +423,10 @@
     b=document.getElementById('c-desm');if(holdState(b,desm.status))draw(b,{kind:'bar',x0:2000,x1:2026,zero:true,d:0,unit:' km²',
       series:[{rows:desm.rows,x:'ano',y:'km2',color:C[0]}],tag:r=>r.tipo==='estimativa'?'estimativa':'',
       prov:r=>r.tipo==='estimativa',provTxt:'Barra vazada: estimativa do INPE, ainda não consolidada.'});
+    b=document.getElementById('c-ren');if(holdState(b,renov.status))draw(b,{kind:'line',x0:2000,x1:2025,zero:false,d:1,unit:'%',
+      series:[{rows:renov.rows,x:'ano',y:'renovaveis',color:C[0]}]});
+    b=document.getElementById('c-ele');if(holdState(b,eletr.status))draw(b,{kind:'line',x0:2000,x1:2025,zero:false,d:1,unit:'%',
+      series:[{rows:eletr.rows,x:'ano',y:'energia_eletrica',color:C[0]}]});
     b=document.getElementById('c-rend');if(holdState(b,rend.status))draw(b,{kind:'line',x0:2012,x1:2025,zero:false,d:0,pre:'R$ ',
       series:[{rows:rend.rows,x:'ano',y:'rendimento',color:C[0]}]});
     b=document.getElementById('c-cambio');if(holdState(b,cam.status))draw(b,{kind:'line',x0:2000,x1:2025,zero:true,d:2,pre:'R$ ',
@@ -452,6 +463,11 @@
     }else lpp.innerHTML='';
     b=document.getElementById('c-vac');if(holdState(b,vac.status))draw(b,{kind:'line',x0:2000,x1:2025,zero:false,d:0,unit:'%',
       series:[{rows:vac.rows,x:'ano',y:'sarampo',color:C[0]}]});
+    b=document.getElementById('c-mort');if(holdState(b,mort.status))draw(b,{kind:'line',x0:2000,x1:2025,zero:true,d:1,unit:' por mil',
+      series:[{rows:mort.rows,x:'ano',y:'mortalidade_infantil',color:C[0]}]});
+    // Sem 2020 e 2021: a linha liga 2019 a 2022, e os pontos mostram os anos com dado.
+    b=document.getElementById('c-sup');if(holdState(b,sup.status))draw(b,{kind:'line',x0:2016,x1:2025,zero:false,d:1,unit:'%',dots:true,
+      series:[{rows:sup.rows,x:'ano',y:'ensino_superior',color:C[0]}]});
     b=document.getElementById('c-des');const ld=document.getElementById('l-des');
     if(holdState(b,des.status)){
       draw(b,{kind:'line',x0:2003,x1:2025,zero:true,d:1,unit:'%',series:[

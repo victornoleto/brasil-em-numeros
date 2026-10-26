@@ -92,6 +92,14 @@ class Linha(unittest.TestCase):
             ad.main(['selic', 'dolar'])
         self.assertIn('dolar', str(e.exception.code))
 
+    def test_lacuna_conhecida_da_fonte_passa(self):
+        # O IBGE não divulgou o ensino superior de 2020 e 2021.
+        self.assertEqual(ad.linhas_csv({2019: 24.7, 2022: 25.0}, 1, {2020, 2021}), [[2019, '24.7'], [2022, '25.0']])
+
+    def test_ano_faltando_fora_da_lacuna_conhecida_falha(self):
+        with self.assertRaisesRegex(ValueError, '2021'):
+            ad.linhas_csv({2019: 24.7, 2022: 25.0}, 1, {2020})
+
 
 if __name__ == '__main__':
     unittest.main()

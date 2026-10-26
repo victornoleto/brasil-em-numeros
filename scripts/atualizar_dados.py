@@ -281,15 +281,37 @@ def moedas_g20():
             + linhas_ranking('ano', f'{int(ate[:4]) - 1}-12', ate, cot, nomes)), None
 
 
-def pib_ppc():
-    # PIB per capita em PPC, US$ internacionais constantes de 2021 (Banco Mundial, WDI).
-    _, linhas = baixar('https://api.worldbank.org/v2/country/BRA;LCN;WLD/indicator/NY.GDP.PCAP.PP.KD'
+def banco_mundial(indicador, paises='BRA'):
+    """Série anual do Banco Mundial (WDI) como {ano: {país ISO3: valor}}."""
+    _, linhas = baixar(f'https://api.worldbank.org/v2/country/{paises}/indicator/{indicador}'
                        f'?format=json&per_page=500&date={INICIO}:{ULTIMO}')
     por = {}
     for r in linhas:
         if r['value'] is not None:
             por.setdefault(int(r['date']), {})[r['countryiso3code']] = r['value']
+    return por
+
+
+def pib_ppc():
+    # PIB per capita em PPC, US$ internacionais constantes de 2021 (Banco Mundial, WDI).
+    por = banco_mundial('NY.GDP.PCAP.PP.KD', 'BRA;LCN;WLD')
     return {a: (v['BRA'], v['LCN'], v['WLD']) for a, v in por.items() if len(v) == 3}, None
+
+
+def mortalidade_infantil():
+    # Óbitos de menores de 1 ano por mil nascidos vivos: estimativa do UN IGME (ONU), publicada pelo Banco Mundial.
+    return {a: v['BRA'] for a, v in banco_mundial('SP.DYN.IMRT.IN').items()}, None
+
+
+def energia_eletrica():
+    # % da população com acesso à eletricidade (ODS 7.1.1, base de eletrificação do Banco Mundial/ESMAP).
+    return {a: v['BRA'] for a, v in banco_mundial('EG.ELC.ACCS.ZS').items()}, None
+
+
+def ensino_superior():
+    # Taxa ajustada de frequência escolar líquida ao ensino superior: % das pessoas de 18 a 24 anos que fazem
+    # ou já concluíram a graduação (PNAD Contínua anual, módulo de educação).
+    return {int(r['D3C']): float(r['V']) for r in sidra('/t/7141/n1/all/v/10282/p/all/c2/6794/c871/47819')}, None
 
 
 def vacinacao():
@@ -335,8 +357,13 @@ SERIES = [
     ('salario_dolar.csv', ['ano', 'salario_dolar'], salario_dolar, 0),
     ('pib_ppc.csv', ['ano', 'brasil', 'america_latina', 'mundo'], pib_ppc, 0),
     ('vacinacao.csv', ['ano', 'sarampo'], vacinacao, 0),
+    ('mortalidade_infantil.csv', ['ano', 'mortalidade_infantil'], mortalidade_infantil, 1),
+    ('energia_eletrica.csv', ['ano', 'energia_eletrica'], energia_eletrica, 1),
+    ('ensino_superior.csv', ['ano', 'ensino_superior'], ensino_superior, 1),
     ('pib_mundo.csv', ['ano', 'america_latina', 'mundo'], pib_mundo, 1),
 ]
+# Anos que a fonte não publicou; fora deles, a série tem de ser contínua.
+LACUNAS = {'ensino_superior.csv': {2020, 2021}}  # o IBGE não divulgou esses anos (SIDRA 7141)
 
 
 def fmt(x, casas):
@@ -346,11 +373,11 @@ def fmt(x, casas):
     return str(d.copy_abs() if d == 0 else d)
 
 
-def linhas_csv(valores, casas):
+def linhas_csv(valores, casas, lacunas=()):
     anos = sorted(a for a in valores if a >= INICIO)
     if not anos:
         raise ValueError('nenhum ano retornado')
-    faltam = sorted(set(range(anos[0], anos[-1] + 1)) - set(anos))
+    faltam = sorted(set(range(anos[0], anos[-1] + 1)) - set(anos) - set(lacunas))
     if faltam:
         raise ValueError(f'anos faltando: {faltam}')
     out = []
@@ -436,7 +463,7 @@ def main(pedidas):
                 gravar(arquivo, cabecalho, anual)
                 fim, faixa = None, f'até {anual[0][2]}'
             else:
-                linhas = linhas_csv({a: v for a, v in anual.items() if a <= ULTIMO}, casas)
+                linhas = linhas_csv({a: v for a, v in anual.items() if a <= ULTIMO}, casas, LACUNAS.get(arquivo, ()))
                 gravar(arquivo, cabecalho, linhas)
                 fim, faixa = linhas[-1][0], f'{linhas[0][0]}–{linhas[-1][0]}'
             p = linhas_parcial(serie, cabecalho[1:], parcial, fim, casas)
