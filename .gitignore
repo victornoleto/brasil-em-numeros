@@ -1,0 +1,6 @@
+# Ferramentas locais: skill e capturas de tela do playwright-cli
+.claude/
+.playwright/
+.playwright-cli/
+# Plano de trabalho interno
+docs/superpowers/

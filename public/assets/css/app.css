@@ -1,0 +1,70 @@
+/* Estilos do painel. Tokens em theme.css. */
+#dash-root .bx{font-family:var(--font-sans);display:flex;flex-direction:column;gap:var(--ui-gap-xl);max-width:100%}
+#dash-root .bx h1{font-family:var(--font-serif);font-weight:400;font-size:var(--ui-font-size-title);margin:0;line-height:1.2}
+#dash-root .bx .lead{color:var(--color-fg-muted);font-size:var(--ui-font-size-body);margin:var(--ui-gap-sm) 0 0;max-width:48rem;line-height:1.5}
+#dash-root .bx .lead b{font-weight:600;color:var(--color-fg)}
+#dash-root .bx .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,10.5rem),1fr));gap:var(--ui-gap-md)}
+#dash-root .bx .tile,#dash-root .bx .card{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--ui-radius);padding:var(--ui-pad-lg)}
+#dash-root .bx .tile .lbl{font-size:var(--ui-font-size-caption);color:var(--color-fg-muted)}
+#dash-root .bx .tile .big{font-family:var(--font-serif);font-weight:400;font-size:var(--ui-font-size-title);font-variant-numeric:tabular-nums;margin:var(--ui-gap-xs) 0;white-space:nowrap}
+#dash-root .bx .tile .prev{font-size:var(--ui-font-size-caption);color:var(--color-fg-muted);font-variant-numeric:tabular-nums}
+#dash-root .bx .arr{font-size:var(--ui-font-size-caption);margin-right:4px}
+#dash-root .bx .arr.good{color:var(--color-ok)}
+#dash-root .bx .arr.bad{color:var(--color-bad)}
+#dash-root .bx h2{font-size:var(--ui-font-size-heading);font-weight:var(--ui-font-weight-medium);margin:0 0 var(--ui-gap-sm)}
+#dash-root .bx .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,22rem),1fr));gap:var(--ui-gap-md)}
+#dash-root .bx .card h3{margin:0;font-size:var(--ui-font-size-heading);font-weight:var(--ui-font-weight-medium)}
+#dash-root .bx .note{font-size:var(--ui-font-size-caption);color:var(--color-fg-muted);margin:var(--ui-gap-xs) 0 var(--ui-gap-md);line-height:1.45}
+#dash-root .bx .ch{position:relative;min-height:200px}
+#dash-root .bx .ch svg{display:block}
+#dash-root .bx .lg{display:flex;flex-wrap:wrap;gap:var(--ui-gap-md);font-size:var(--ui-font-size-caption);color:var(--color-fg-muted);margin-top:var(--ui-gap-sm)}
+#dash-root .bx .sw{display:inline-block;width:12px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+#dash-root .bx .tip{position:absolute;top:0;left:0;background:var(--ui-surface-popover);border:1px solid var(--ui-border);border-radius:var(--ui-radius);box-shadow:var(--ui-shadow-popover);padding:var(--ui-pad-xs) var(--ui-pad-sm);font-size:var(--ui-font-size-caption);pointer-events:none;white-space:nowrap;display:none;z-index:2;font-variant-numeric:tabular-nums}
+#dash-root .bx .tip .k{color:var(--ui-text-secondary);margin-bottom:2px}
+#dash-root .bx .fail{display:flex;align-items:center;justify-content:center;gap:8px;min-height:200px;color:var(--color-fg-muted);font-size:var(--ui-font-size-caption)}
+#dash-root .bx .fail i{display:inline-block;width:.375rem;height:.375rem;border-radius:50%;background:var(--color-bad)}
+#dash-root .bx table{width:100%;border-collapse:collapse;font-size:var(--ui-font-size-caption)}
+#dash-root .bx th{text-align:left;color:var(--color-fg-muted);font-weight:var(--ui-font-weight-medium);padding:6px 8px 6px 0;border-bottom:1px solid var(--color-border-line)}
+#dash-root .bx td{padding:8px 8px 8px 0;border-bottom:1px solid var(--color-border-line);vertical-align:top;line-height:1.4}
+#dash-root .bx td.st.in{color:var(--color-bad);font-weight:600}
+#dash-root .bx td.st.out{color:var(--color-ok);font-weight:600}
+#dash-root .bx .foot{font-size:var(--ui-font-size-caption);color:var(--color-fg-muted);line-height:1.5}
+#dash-root .bx .chips{display:flex;flex-wrap:wrap;gap:var(--ui-gap-xs);margin-bottom:var(--ui-gap-md)}
+#dash-root .bx .chips button{font:inherit;font-size:var(--ui-font-size-caption);padding:4px 10px;border-radius:999px;border:1px solid var(--color-border-line);background:transparent;color:var(--color-fg-muted);cursor:pointer}
+#dash-root .bx .chips button[aria-pressed=true]{background:var(--color-fg);color:var(--color-bg);border-color:var(--color-fg)}
+#dash-root .bx .ch.gov{min-height:220px}
+#dash-root .bx .tw{overflow-x:auto}
+#dash-root .bx .tw table{min-width:44rem;font-variant-numeric:tabular-nums}
+#dash-root .bx .tw th:first-child,#dash-root .bx .tw td:first-child{position:sticky;left:0;background:var(--color-panel);font-weight:600;padding-right:12px}
+#dash-root .bx .tw td:not(:first-child),#dash-root .bx .tw th:not(:first-child){text-align:right}
+/* Resumo por mandato: com menos de 44rem de largura, a tabela rola na horizontal. */
+#dash-root .bx .tw td,#dash-root .bx .tw th{white-space:nowrap;padding-right:6px}
+#dash-root .bx .tw td:not(:first-child),#dash-root .bx .tw th:not(:first-child){padding-left:6px}
+#dash-root .bx .tw td:first-child{white-space:normal;min-width:8rem}
+#dash-root .bx .tw th .yr{display:block;font-weight:400;font-size:var(--ui-font-size-caption)}
+#dash-root .bx .tw tr.placar td{font-weight:600;border-bottom:0}
+/* Veredito: o símbolo (✓ ✗ =) é o sinal; a cor só reforça. */
+#dash-root .bx .vd{font-weight:700;margin-left:2px}
+#dash-root .bx .vd.ok{color:var(--color-ok)}
+#dash-root .bx .vd.bad{color:var(--color-bad)}
+#dash-root .bx .vd.eq{color:var(--color-fg-muted)}
+
+#dash-root .bx .fontes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));gap:var(--ui-gap-md);margin:0;padding:0;list-style:none}
+#dash-root .bx .fontes li{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--ui-radius);padding:var(--ui-pad-md) var(--ui-pad-lg);font-size:var(--ui-font-size-caption);line-height:1.5;color:var(--color-fg-muted)}
+#dash-root .bx .fontes b{display:block;color:var(--color-fg);font-weight:600;font-size:var(--ui-font-size-body);margin-bottom:2px}
+#dash-root .bx .fontes a{color:var(--chart-1)}
+#dash-root .bx .foot a{color:inherit}
+#dash-root .bx .mt-md{margin-top:var(--ui-gap-md)}
+#dash-root .bx .note.note-end{margin:var(--ui-gap-md) 0 0}
+.nojs{padding:16px}
+/* Fonte de cada cartão, destaque e da abertura (app.js, data-fontes). Link sublinhado: não depende de cor. */
+#dash-root .bx .src{font-size:var(--ui-font-size-caption);color:var(--color-fg-muted);line-height:1.5;margin-top:var(--ui-gap-sm);overflow-wrap:anywhere}
+#dash-root .bx .src p{margin:0}
+#dash-root .bx .src a,#dash-root .bx .tw td:first-child a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+#dash-root .bx header .src{margin-top:var(--ui-gap-sm)}
+#dash-root .bx .tile .src{margin-top:var(--ui-gap-xs)}
+/* Legenda do valor provisório (2026 parcial, estimativa), logo abaixo do gráfico. */
+#dash-root .bx .prov{font-size:var(--ui-font-size-caption);color:var(--color-fg-muted);margin:var(--ui-gap-xs) 0 0}
+#dash-root .bx .fontes li p{margin:var(--ui-gap-xs) 0 0;overflow-wrap:anywhere}
+#dash-root .bx .fontes li{scroll-margin-top:var(--ui-gap-xl)}
+#dash-root .bx .fontes li:target{outline:2px solid var(--color-fg);outline-offset:2px}

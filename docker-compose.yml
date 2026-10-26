@@ -1,0 +1,11 @@
+services:
+  brasil-em-numeros:
+    build: .
+    image: brasil-em-numeros:latest
+    container_name: brasil-em-numeros
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    # Descomente para editar os CSVs sem rebuild da imagem:
+    # volumes:
+    #   - ./public/data:/usr/share/nginx/html/data:ro

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brasil em números 2000–2025</title>
+<meta name="description" content="Painel com os principais indicadores do Brasil de 2000 a 2025, com 2026 parcial — PIB, inflação, desemprego, juros, contas públicas, salário mínimo, renda do trabalho, câmbio e poder de compra, desigualdade, pobreza, fome, desmatamento e vacinação — a partir de IBGE, Banco Central, Ipea, INPE, OMS/UNICEF, FMI, BIS, Federal Reserve, Banco Mundial e FAO/ONU, com placar por governo e a fonte de cada número.">
+<meta name="theme-color" content="#faf9f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1918" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f6fdb'/%3E%3Crect x='7' y='17' width='4' height='8' rx='1.5' fill='white'/%3E%3Crect x='14' y='11' width='4' height='14' rx='1.5' fill='white'/%3E%3Crect x='21' y='7' width='4' height='18' rx='1.5' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/theme.css">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<main id="dash-root">
+<div class="bx">
+  <header id="topo" data-fontes="pib ipca desemprego mapa_fome">
+    <h1>Brasil em números, 2000–2025</h1>
+    <p class="lead">Em 2025 o PIB cresceu <b><span data-source="pib" data-field="pib" data-where="ano=2025" class="dash-skeleton">—</span>%</b>, a inflação fechou em <b><span data-source="ipca" data-field="ipca" data-where="ano=2025" class="dash-skeleton">—</span>%</b> e o desemprego ficou em <b><span data-source="desemprego" data-field="taxa" data-where="ano=2025" class="dash-skeleton">—</span>%</b><span id="minimo"></span>. No relatório da ONU de 2026, a situação do Brasil no Mapa da Fome: <b><span data-source="mapa_fome" data-field="situacao" data-where="relatorio=SOFI 2026" class="dash-skeleton">—</span></b>.</p>
+    <p class="lead">2026 ainda não fechou: nos gráficos, o ano aparece com o último mês divulgado, em trecho tracejado ou barra vazada. Cada gráfico diz de onde vêm os dados e quando foram coletados.</p>
+  </header>
+
+  <section class="tiles" id="destaques">
+    <div class="tile" data-fontes="pib"><div class="lbl">PIB · crescimento real 2025</div>
+      <div class="big"><span id="t-pib-s"></span><span data-source="pib" data-field="pib" data-where="ano=2025" class="dash-skeleton">—</span>%</div>
+      <div class="prev"><span class="arr" id="a-pib"></span>2024: <span data-source="pib" data-field="pib" data-where="ano=2024">—</span>%</div></div>
+    <div class="tile" data-fontes="ipca"><div class="lbl">Inflação (IPCA) 2025</div>
+      <div class="big"><span data-source="ipca" data-field="ipca" data-where="ano=2025" class="dash-skeleton">—</span>%</div>
+      <div class="prev"><span class="arr" id="a-ipca"></span>2024: <span data-source="ipca" data-field="ipca" data-where="ano=2024">—</span>%</div></div>
+    <div class="tile" data-fontes="desemprego"><div class="lbl">Desemprego 2025</div>
+      <div class="big"><span data-source="desemprego" data-field="taxa" data-where="ano=2025" class="dash-skeleton">—</span>%</div>
+      <div class="prev"><span class="arr" id="a-des"></span>2024: <span data-source="desemprego" data-field="taxa" data-where="ano=2024">—</span>%</div></div>
+    <div class="tile" data-fontes="divida"><div class="lbl">Dívida bruta · % do PIB, 2025</div>
+      <div class="big"><span data-source="divida" data-field="divida" data-where="ano=2025" class="dash-skeleton">—</span>%</div>
+      <div class="prev"><span class="arr" id="a-div"></span>2024: <span data-source="divida" data-field="divida" data-where="ano=2024">—</span>%</div></div>
+    <div class="tile" data-fontes="gini"><div class="lbl">Desigualdade (Gini) 2025</div>
+      <div class="big"><span data-source="gini" data-field="gini" data-where="ano=2025" class="dash-skeleton">—</span></div>
+      <div class="prev"><span class="arr" id="a-gini"></span>2024: <span data-source="gini" data-field="gini" data-where="ano=2024">—</span></div></div>
+    <div class="tile" data-fontes="fome"><div class="lbl">Fome · insegurança alimentar grave 2024</div>
+      <div class="big"><span data-source="fome" data-field="ia_grave" data-where="periodo=2024" class="dash-skeleton">—</span>%</div>
+      <div class="prev"><span class="arr" id="a-fome"></span>2023: <span data-source="fome" data-field="ia_grave" data-where="periodo=2023">—</span>%</div></div>
+  </section>
+
+  <section id="economia">
+    <h2>Economia</h2>
+    <div class="grid">
+      <div class="card" data-fontes="pib"><h3 id="h-pib">PIB · crescimento real (%)</h3><p class="note">Variação anual do PIB. Barras vermelhas, abaixo de zero, são anos de recessão.</p><div class="ch" id="c-pib" data-source="pib"></div></div>
+      <div class="card" data-fontes="pib pib_mundo"><h3 id="h-pibal">PIB · Brasil × América Latina (%)</h3><p class="note">Quando os dois caem juntos, a causa tende a ser externa (2009, 2020). Quando só o Brasil cai, interna (2015–16).</p><div class="ch" id="c-pibal" data-source="pib_mundo"></div><div class="lg" id="l-pibal"></div></div>
+      <div class="card" data-fontes="ipca meta_inflacao"><h3 id="h-ipca">Inflação · IPCA no ano e teto da meta (%)</h3><p class="note">IPCA de dezembro a dezembro. Acima da linha do teto, a meta do Conselho Monetário Nacional foi estourada.</p><div class="ch" id="c-ipca" data-source="ipca"></div><div class="lg" id="l-ipca"></div></div>
+      <div class="card" data-fontes="selic"><h3 id="h-selic">Juros · Selic no fim do ano (% a.a.)</h3><p class="note">Meta da taxa básica definida pelo Copom, em vigor em 31 de dezembro; em 2026, a que vigora hoje.</p><div class="ch" id="c-selic" data-source="selic"></div></div>
+      <div class="card" data-fontes="primario"><h3 id="h-prim">Resultado primário do governo federal (% do PIB)</h3><p class="note">Receitas menos despesas do Tesouro e do INSS, sem os juros da dívida. Abaixo de zero, déficit.</p><div class="ch" id="c-prim" data-source="primario"></div></div>
+      <div class="card" data-fontes="divida divida_liquida"><h3 id="h-div">Dívida pública (% do PIB)</h3><p class="note">Bruta: o que o governo geral deve. Líquida: desconta o que o setor público tem a receber, como as reservas internacionais.</p><div class="ch" id="c-div" data-source="divida"></div><div class="lg" id="l-div"></div></div>
+    </div>
+  </section>
+
+  <section id="trabalho">
+    <h2>Trabalho e renda</h2>
+    <div class="grid">
+      <div class="card" data-fontes="desemprego"><h3 id="h-des">Desemprego · taxa de desocupação (%)</h3><p class="note">Até 2011 a PME do IBGE cobria só 6 regiões metropolitanas; a PNAD Contínua (2012+) cobre o país inteiro. As duas séries não são diretamente comparáveis. Não há série nacional mensurável para 2000–2002. O 2026 parcial é a média dos trimestres, que nos últimos anos ficou cerca de 0,3 p.p. acima da taxa anual do IBGE.</p><div class="ch" id="c-des" data-source="desemprego"></div><div class="lg" id="l-des" data-source="desemprego"></div></div>
+      <div class="card" data-fontes="salario_minimo"><h3 id="h-sal">Salário mínimo real (R$ de hoje)</h3><p class="note">Média de cada ano, corrigida pela inflação até o mês mais recente (Ipea). O reajuste é decidido pelo governo federal.</p><div class="ch" id="c-sal" data-source="salario_minimo"></div></div>
+      <div class="card" data-fontes="rendimento"><h3 id="h-rend">Rendimento real do trabalho (R$ de hoje)</h3><p class="note">Quanto quem trabalha recebe por mês, somando todos os trabalhos, corrigido pela inflação até o último trimestre (PNAD Contínua). Mede o poder de compra de quem vive do trabalho. Começa em 2012. O pico de 2020 é efeito da pandemia: quem ganhava menos perdeu o trabalho, e a média dos que ficaram subiu.</p><div class="ch" id="c-rend" data-source="rendimento"></div></div>
+    </div>
+  </section>
+
+  <section id="cambio">
+    <h2>Câmbio e poder de compra</h2>
+    <div class="grid">
+      <div class="card" data-fontes="cambio"><h3 id="h-cambio">Dólar · reais por US$ (média do ano)</h3><p class="note">Quantos reais custa 1 dólar, na média de cada ano (cotação de venda do Banco Central). Subir é o dólar ficar mais caro em reais. Sozinho, não diz se foi o real que enfraqueceu ou o dólar que se fortaleceu no mundo: os dois gráficos seguintes separam isso.</p><div class="ch" id="c-cambio" data-source="cambio"></div></div>
+      <div class="card" data-fontes="cambio_efetivo"><h3 id="h-efetivo">Força do real e do dólar contra o mundo (2000 = 100)</h3><p class="note">Valor de cada moeda contra uma cesta ampla de moedas, com o peso de cada parceiro no comércio (taxa efetiva do BIS). Subir é a moeda ficar mais forte. Se o dólar sobe e o real fica parado, quem mudou foi o dólar; se o real cai e o dólar fica parado, foi o real.</p><div class="ch" id="c-efetivo" data-source="cambio_efetivo"></div><div class="lg" id="l-efetivo"></div></div>
+      <div class="card" data-fontes="moedas"><h3 id="h-moedas">Real, outras moedas e o dólar (2000 = 100)</h3><p class="note">Quanto cada moeda vale em dólar, com 2000 = 100: abaixo de 100, ela compra menos dólares que em 2000. Quando todas caem juntas, o movimento é do dólar; quando o real cai mais que as outras, a causa é do Brasil. Moedas de outros emergentes (México, África do Sul, Índia) e o euro.</p><div class="ch" id="c-moedas" data-source="moedas"></div><div class="lg" id="l-moedas"></div></div>
+      <div class="card" data-fontes="moedas_g20"><h3 id="h-g20">Moedas do G20 contra o dólar (%)</h3><p class="note">Quanto cada moeda do G20 ganhou (barra para a direita) ou perdeu (para a esquerda) em dólar, pela cotação média do mês. O rial saudita é atrelado ao dólar. Atenção: dez/2024 foi o mês mais fraco do real contra o dólar desde 1999 (R$ 6,09 em média), depois de uma queda de 19,6% em 2024; parte da alta desde então é recuperação dessa queda.</p><div class="chips" id="g20-chips"></div><div class="ch" id="c-g20" data-source="moedas_g20"></div><p class="note note-end" id="g20-resumo"></p></div>
+      <div class="card" data-fontes="salario_dolar"><h3 id="h-saldolar">Salário mínimo em dólar (US$ por mês)</h3><p class="note">Salário mínimo de cada mês dividido pelo dólar médio do mês; média do ano. Mostra quanto o mínimo compra do que tem preço em dólar, como combustível, trigo e eletrônicos.</p><div class="ch" id="c-saldolar" data-source="salario_dolar"></div></div>
+      <div class="card" data-fontes="pib_ppc"><h3 id="h-ppc">Renda por pessoa em poder de compra (US$ de 2021)</h3><p class="note">PIB per capita em paridade de poder de compra (PPC): corrige a diferença de preços entre os países, então compara o que a renda compra, não o câmbio. Banco Mundial; os anos seguem as revisões dele.</p><div class="ch" id="c-ppc" data-source="pib_ppc"></div><div class="lg" id="l-ppc"></div></div>
+    </div>
+  </section>
+
+  <section id="sociedade">
+    <h2>Desigualdade, pobreza e fome</h2>
+    <div class="grid">
+      <div class="card" data-fontes="gini"><h3 id="h-gini">Índice de Gini da renda</h3><p class="note">Renda domiciliar per capita. 0 seria igualdade total; quanto menor, menos desigual.</p><div class="ch" id="c-gini" data-source="gini"></div></div>
+      <div class="card" data-fontes="pobreza"><h3 id="h-pob">Pobreza e extrema pobreza (% da população)</h3><p class="note">Linhas do Banco Mundial: US$ 6,85 e US$ 2,15 por dia (PPC). Só os anos divulgados pelo IBGE na última Síntese de Indicadores Sociais.</p><div class="ch" id="c-pob" data-source="pobreza"></div><div class="lg" id="l-pob" data-source="pobreza"></div></div>
+      <div class="card" data-fontes="fome"><h3 id="h-fome">Insegurança alimentar grave (% dos domicílios)</h3><p class="note">Domicílios onde alguém passou fome. Medida pelo IBGE em pesquisas específicas, não todo ano.</p><div class="ch" id="c-fome" data-source="fome"></div></div>
+      <div class="card" data-fontes="mapa_fome"><h3 id="h-mapa">Mapa da Fome da ONU (FAO)</h3><p class="note">Entra no mapa o país com parcela da população subalimentada acima do limite da FAO.</p>
+        <table id="t-mapa" data-source="mapa_fome" data-row-key="relatorio"><thead><tr><th data-field="relatorio">Relatório</th><th data-field="situacao">Situação</th><th data-field="detalhe">Detalhe</th></tr></thead><tbody></tbody></table></div>
+    </div>
+  </section>
+
+  <section id="ambiente-saude">
+    <h2>Meio ambiente e saúde</h2>
+    <div class="grid">
+      <div class="card" data-fontes="desmatamento"><h3 id="h-desm">Desmatamento na Amazônia (km² por ano)</h3><p class="note">Prodes/INPE. O ano vai de agosto a julho; 2026 é estimativa. Fiscalização e embargos (Ibama, ICMBio, Polícia Federal) são federais.</p><div class="ch" id="c-desm" data-source="desmatamento"></div></div>
+      <div class="card" data-fontes="vacinacao"><h3 id="h-vac">Vacinação contra sarampo (% das crianças de 1 ano)</h3><p class="note">1ª dose, estimativas da OMS e do UNICEF. O Programa Nacional de Imunizações é federal; a meta do Ministério da Saúde é 95%.</p><div class="ch" id="c-vac" data-source="vacinacao"></div></div>
+    </div>
+  </section>
+
+  <section id="governos">
+    <h2>Por governo</h2>
+    <div class="grid">
+      <div class="card" id="card-gov-chart" data-fontes="governos"><h3 id="h-gov">Comparar mandatos</h3>
+        <p class="note">Escolha o indicador. A barra é quanto ele mudou no mandato: o último valor do mandato menos a herança, que é o último valor do governo anterior. No PIB e no IPCA, a barra é a média do mandato menos a referência (América Latina e teto da meta). ✓ melhorou, ✗ piorou, = mudou menos que a tolerância. * em andamento.</p>
+        <div class="chips" id="gov-chips"></div>
+        <div class="ch gov" id="c-gov" data-source="governos"></div></div>
+    </div>
+    <div class="card mt-md" data-fontes="governos parcial"><h3 id="h-gov-tab">Resumo por mandato</h3>
+      <p class="note">Cada ano conta para quem governou a maior parte dele: Dilma 2 fica com 2015 (foi afastada em 12/05/2016) e Temer com 2016–2018. Cada célula mostra herança → entrega, ou Brasil vs referência no PIB e no IPCA. Passe o mouse para ver os anos usados. Sem herança dentro dos 4 anos anteriores, vale o 1º valor do próprio mandato. O desemprego só compara a mesma pesquisa (PME até 2011, PNAD Contínua depois). “—” é sem dado e não conta a favor nem contra. Lula 3 ainda está no mandato: nos indicadores de nível, a entrega é o valor de 2026 até o último mês divulgado (o mês aparece ao passar o mouse); PIB e IPCA usam só anos fechados. O nome de cada linha leva à fonte.</p>
+      <div class="tw"><table id="t-gov" data-source="governos"><thead></thead><tbody></tbody></table></div>
+      <p class="note note-end">O placar é uma contagem simples, sem pesos; dívida e pobreza entram com duas medidas cada. Tolerâncias: PIB 0,5 p.p./ano; IPCA 0,25 p.p.; desemprego, extrema pobreza e fome 0,5 p.p.; primário 0,3 p.p.; dívidas e pobreza 1 p.p.; Gini 0,005; salário mínimo e rendimento do trabalho 2%; desmatamento 5%; vacinação 2 p.p. Os números de cada mandato também refletem o cenário externo (crise de 2008, ciclo das commodities, pandemia), decisões de governos anteriores e o Congresso. A Selic é decidida pelo Copom, e o Banco Central é autônomo desde 2021.</p>
+    </div>
+  </section>
+
+  <section id="fontes">
+    <h2>Fontes e notas</h2>
+    <ul class="fontes" id="lista-fontes"></ul>
+  </section>
+
+  <p class="foot">Fontes: IBGE (Contas Nacionais, IPCA, PNAD Contínua, PME, PNAD, POF, Síntese de Indicadores Sociais), Banco Central do Brasil (Copom, Estatísticas Fiscais, metas de inflação, câmbio), Ipea (salário mínimo real), INPE (Prodes), OMS/UNICEF (vacinação), FMI (World Economic Outlook), BIS (taxas de câmbio efetivas), Federal Reserve (câmbio, via FRED), Banco Mundial (PIB per capita em PPC) e FAO/ONU (relatório SOFI). Detalhes de cada série em <a href="#fontes">Fontes e notas</a>.</p>
+</div>
+</main>
+<noscript><p class="nojs">Este painel precisa de JavaScript para desenhar os gráficos.</p></noscript>
+<script src="assets/js/d3.v7.9.0.min.js"></script>
+<script src="assets/js/dash.js"></script>
+<script src="assets/js/parcial.js"></script>
+<script src="assets/js/governos.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
